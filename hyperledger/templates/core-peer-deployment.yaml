@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-core-peer
+  labels:
+    app: {{ template "fullname" . }}-core-peer
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replica.corePeer }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}-core-peer
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.peer }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["sh","-c","sleep 5; /opt/gopath/bin/peer node start"]
+          ports:
+            - name: "http-7050"
+              containerPort: 7050
+            - name: "http-7051"
+              containerPort: 7051
+            - name: "http-7053"
+              containerPort: 7053              
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+

@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-ca
+  labels:
+    app: {{ template "fullname" . }}-ca
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replica.ca }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}-ca
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.ca }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/opt/gopath/bin/membersrvc"]
+          ports:
+            - name: "http"
+              containerPort: 7054
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+
