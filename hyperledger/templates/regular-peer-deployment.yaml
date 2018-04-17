@@ -60,4 +60,5 @@ spec:
               value: '{{ template "fullname" $cursor }}-ca:7054'
           resources:
 {{ toYaml $cursor.Values.resources | indent 12 }}
+{{/* ... */}}
 {{- end -}}

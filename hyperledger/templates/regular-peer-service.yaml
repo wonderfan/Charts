@@ -30,4 +30,5 @@ spec:
   selector:
     app: {{ template "fullname" $cursor }}-regular-peer{{ $e }}
     release: {{ $cursor.Release.Name }}
+{{/* ... */}}
 {{- end -}}
