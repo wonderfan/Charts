@@ -1,4 +1,5 @@
-{{- range $i,$e := untilStep 1 .Values.replica.regularPeer 1 -}}
+{{-  $peers := int .Values.replica.regularPeer -}}
+{{- range $i,$e := untilStep 1 $peers 1 -}}
 {{- $eStr := toString $e -}}
 {{-  $enrollId := printf "%s%s" "test_vp" $eStr -}}
 {{ $myDict := dict "test_vp1" "5wgHK9qqYaPy" "test_vp2" "vQelbRvja7cJ" "test_vp3" "9LKqKH5peurL" "test_vp4" "Pqh90CEW5juZ" "test_vp5" "FfdvDkAdY81P" "test_vp6" "QiXJgHyV4t7A" "test_vp7" "twoKZouEyLyB" "test_vp8" "BxP7QNh778gI" "test_vp9" "wu3F1EwJWHvQ" }}
