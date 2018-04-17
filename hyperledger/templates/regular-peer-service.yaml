@@ -1,17 +1,18 @@
 {{-  $peers := int .Values.replica.regularPeer -}}
+{{- $cursor := . -}}
 {{- range $i,$e := untilStep 1 $peers 1 -}}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}-regular-peer{{ $e }}
+  name: {{ template "fullname" $cursor }}-regular-peer{{ $e }}
   labels:
-    app: {{ template "fullname" . }}-regular-peer{{ $e }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app: {{ template "fullname" $cursor }}-regular-peer{{ $e }}
+    chart: {{ $cursor.Chart.Name }}-{{ $cursor.Chart.Version | replace "+" "_" }}
+    release: {{ $cursor.Release.Name }}
+    heritage: {{ $cursor.Release.Service }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ $cursor.Values.service.type }}
   ports:
     - port: 7050
       targetPort: 7050
@@ -26,6 +27,6 @@ spec:
       protocol: TCP
       name: "tcp-7053"      
   selector:
-    app: {{ template "fullname" . }}-regular-peer{{ $e }}
-    release: {{ .Release.Name }}
+    app: {{ template "fullname" $cursor }}-regular-peer{{ $e }}
+    release: {{ $cursor.Release.Name }}
 {{- end -}}
