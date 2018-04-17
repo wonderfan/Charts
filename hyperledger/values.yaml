@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 replica: 
   peers: 2
+  
 image:
   ca: fabric-membersrvc:latest
   peer: fabric-peer:latest

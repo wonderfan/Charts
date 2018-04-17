@@ -1,4 +1,4 @@
-{{-  $replica := int .Values.replica.peers  -}}
+{{-  $replica := int .Values.replica.peers -}}
 {{- $peers := add1 $replica  -}}
 {{- $cursor := . -}}
 {{- range $i,$e := untilStep 1 $peers 1 -}}
