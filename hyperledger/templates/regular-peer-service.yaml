@@ -1,0 +1,30 @@
+{{- range $i,$e := untilStep 1 .Values.replica.regularPeer 1 -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "fullname" . }}-regular-peer{{ $e }}
+  labels:
+    app: {{ template "fullname" . }}-regular-peer{{ $e }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 7050
+      targetPort: 7050
+      protocol: TCP
+      name: "tcp-7050"
+    - port: 7051
+      targetPort: 7051
+      protocol: TCP
+      name: "tcp-7051"
+    - port: 7053
+      targetPort: 7053
+      protocol: TCP
+      name: "tcp-7053"      
+  selector:
+    app: {{ template "fullname" . }}-regular-peer{{ $e }}
+    release: {{ .Release.Name }}
+{{- end -}}

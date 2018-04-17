@@ -26,7 +26,30 @@ spec:
             - name: "http-7051"
               containerPort: 7051
             - name: "http-7053"
-              containerPort: 7053              
+              containerPort: 7053
+          env:
+            - name: "CORE_PEER_ADDRESSAUTODETECT"
+              value: "true"
+            - name: "CORE_VM_ENDPOINT"
+              value: "unix:///var/run/docker.sock"
+            - name: CORE_LOGGING_LEVEL
+              value: DEBUG
+            - name: CORE_SECURITY_ENABLED
+              value: true
+            - name: CORE_SECURITY_PRIVACY
+              value: true
+            - name: CORE_PEER_ID
+              value: vp0
+            - name: CORE_SECURITY_ENROLLID
+              value: test_vp0
+            - name: CORE_SECURITY_ENROLLSECRET
+              value: MwYpmSRjupbT
+            - name: CORE_PEER_PKI_ECA_PADDR
+              value: {{ template "fullname" . }}-ca:7054
+            - name: CORE_PEER_PKI_TCA_PADDR
+              value: {{ template "fullname" . }}-ca:7054
+            - name: CORE_PEER_PKI_TLSCA_PADDR
+              value: {{ template "fullname" . }}-ca:7054              
           resources:
 {{ toYaml .Values.resources | indent 12 }}
 

@@ -1,0 +1,60 @@
+{{- range $i,$e := untilStep 1 .Values.replica.regularPeer 1 -}}
+{{-  $enrollId := "test_vp" + $e -}}
+{{ $myDict := dict "test_vp1" "5wgHK9qqYaPy" "test_vp2" "vQelbRvja7cJ" "test_vp3" "9LKqKH5peurL" "test_vp4" "Pqh90CEW5juZ" "test_vp5" "FfdvDkAdY81P" "test_vp6" "QiXJgHyV4t7A" "test_vp7" "twoKZouEyLyB" "test_vp8" "BxP7QNh778gI" "test_vp9" "wu3F1EwJWHvQ" }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-core-peer{{ $e }}
+  labels:
+    app: {{ template "fullname" . }}-core-peer{{ $e }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replica.corePeer }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}-core-peer{{ $e }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.peer }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["sh","-c","sleep 5; /opt/gopath/bin/peer node start"]
+          ports:
+            - name: "http-7050"
+              containerPort: 7050
+            - name: "http-7051"
+              containerPort: 7051
+            - name: "http-7053"
+              containerPort: 7053
+          env:
+            - name: "CORE_PEER_ADDRESSAUTODETECT"
+              value: "true"
+            - name: "CORE_VM_ENDPOINT"
+              value: "unix:///var/run/docker.sock"
+            - name: CORE_LOGGING_LEVEL
+              value: DEBUG
+            - name: CORE_SECURITY_ENABLED
+              value: true
+            - name: CORE_SECURITY_PRIVACY
+              value: true
+            - name: CORE_PEER_ID
+              value: vp0
+            - name: CORE_SECURITY_ENROLLID
+              value: test_vp{{ $e }}
+            - name: CORE_SECURITY_ENROLLSECRET
+              value: {{ index $myDict $enrollId }}
+            - name: CORE_PEER_PKI_ECA_PADDR
+              value: {{ template "fullname" . }}-ca:7054
+            - name: CORE_PEER_PKI_TCA_PADDR
+              value: {{ template "fullname" . }}-ca:7054
+            - name: CORE_PEER_PKI_TLSCA_PADDR
+              value: {{ template "fullname" . }}-ca:7054              
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+
+{{- end -}}
