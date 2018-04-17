@@ -9,9 +9,9 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" $cursor }}-core-peer{{ $e }}
+  name: {{ template "fullname" $cursor }}-regular-peer{{ $e }}
   labels:
-    app: {{ template "fullname" $cursor }}-core-peer{{ $e }}
+    app: {{ template "fullname" $cursor }}-regular-peer{{ $e }}
     chart: {{ $cursor.Chart.Name }}-{{ $cursor.Chart.Version | replace "+" "_" }}
     release: {{ $cursor.Release.Name }}
     heritage: {{ $cursor.Release.Service }}
@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "fullname" $cursor }}-core-peer{{ $e }}
+        app: {{ template "fullname" $cursor }}-regular-peer{{ $e }}
         release: {{ $cursor.Release.Name }}
     spec:
       containers:
