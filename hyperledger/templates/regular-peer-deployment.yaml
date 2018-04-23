@@ -47,7 +47,7 @@ spec:
             - name: "CORE_SECURITY_PRIVACY"
               value: "true"
             - name: "CORE_PEER_ID"
-              value: "vp0"
+              value: "vp{{ $e }}"
             - name: "CORE_SECURITY_ENROLLID"
               value: "test_vp{{ $e }}"
             - name: "CORE_SECURITY_ENROLLSECRET"
