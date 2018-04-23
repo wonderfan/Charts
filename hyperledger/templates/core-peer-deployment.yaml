@@ -52,3 +52,11 @@ spec:
               value: '{{ template "fullname" . }}-ca:7054'              
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+            - name: dockersocket
+              mountPath: /var/run/docker.sock
+              readOnly: true
+        volumes:
+          - name: dockersocket
+            hostPath:
+              path: /var/run/docker.sock
