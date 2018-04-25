@@ -5,25 +5,25 @@
 #   3 - Most preferred
 arch:
   amd64: "2 - No preference"
-  ppc64le: "2 - No preference"
+  # ppc64le: "2 - No preference"
   # s390x: "2 - No preference"
 
 image:
   repository: ibmcom/galera-mariadb
-  tag: 10.1.16
+  tag: pmc
   # user pullPolicy of Always if tag is latest
   pullPolicy: IfNotPresent
 
 mariadb:
   ## Specify password for root user
-  rootPassword: ""
+  rootPassword: "passw0rd"
 
   ## Create a database
-  database: ""
+  database: "CLOUD"
 
   ## Create a database user
-  user: ""
-  password: ""
+  user: "pmc"
+  password: "aq1sw2de"
 
   ## Configure MariaDB with a custom my.cnf file defined in a ConfigMap as a my_extra.cnf file
   ## ref: https://mariadb.com/kb/en/mariadb/configuring-mariadb-with-mycnf/#example-of-configuration-file
