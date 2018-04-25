@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-db-sql
+  labels:
+    app: {{ template "fullname" . }}
+data:
+  db.sql: |
+{{ .Files.Get "config/db.sql" | indent 4 }}  

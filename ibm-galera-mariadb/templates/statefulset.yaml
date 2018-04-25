@@ -45,6 +45,9 @@ spec:
           subPath: data
 {{- end }}
       volumes:
+      - name: initdbsql
+        configMap:
+          name: {{ template "fullname" . }}-db-sql
       - name: localtime
         hostPath:
           path: /etc/localtime
@@ -95,6 +98,8 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
+        - name: initdbsql
+          mountPath: /docker-entrypoint-initdb.d
 {{- if .Values.mariadb.configMapName }}
         - name: config
           mountPath: /etc/config
