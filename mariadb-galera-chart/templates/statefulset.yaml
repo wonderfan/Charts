@@ -71,6 +71,7 @@ spec:
       initContainers:
       - name: mariadb-galera-prepare
         image: busybox
+        imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
         command: ['sh', '-c', 'chown -R 27:27 /var/lib/mysql']
         volumeMounts:
         - name: datadir

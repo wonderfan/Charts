@@ -38,6 +38,7 @@ spec:
       initContainers:
       - name: galera-mariadb-prepare
         image: busybox
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: [ "sh", "-c", "chown -R 27:27 /var/lib/mysql" ]
         volumeMounts:
         - name: {{ .Values.dataPVC.name | quote }}
